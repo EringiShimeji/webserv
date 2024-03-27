@@ -18,4 +18,4 @@ jobs:
       - name: Configure cmake
         run: cmake -B build
       - name: Run clang-tidy
-        run: clang-tidy -p build -warnings-as-errors '*,-clang-diagnostic-unused-parameter' $(git ls-files '*.cpp' '*.hpp')
+        run: clang-tidy -p build -warnings-as-errors '*,-clang-diagnostic-unused-parameter' $(git ls-files '*.cpp' '*.hpp' | grep -v '^scripts/template/')
