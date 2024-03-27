@@ -14,9 +14,7 @@ namespace types {
     public:
         explicit Ok(T val) : val_(val) {}
 
-        Ok(const Ok &other) {
-            *this = other;
-        }
+        Ok(const Ok &other) : val_(other.val_) {}
 
         ~Ok() {}
 
@@ -48,9 +46,7 @@ namespace types {
     public:
         explicit Err(E error) : error_(error) {}
 
-        Err(const Err &other) {
-            *this = other;
-        }
+        Err(const Err &other) : error_(other.error_) {}
 
         ~Err() {}
 

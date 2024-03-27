@@ -33,4 +33,12 @@ add_library(webserv_internal STATIC
         http/response_writer.hpp
         http/response_writer.cpp
         http/context.cpp
+        http/context.hpp
+        http/request_parser.cpp
+        http/request_parser.hpp
+        utils/utils.cpp
+        http/method.cpp
+        io/reader.cpp
+        io/reader.hpp
+        utils/ownership.hpp
 )

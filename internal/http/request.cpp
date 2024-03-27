@@ -1,23 +1,22 @@
 #include "request.hpp"
 
+Request::Request() : method_(kMethodUnknown), request_target_("/"), http_version_("HTTP/1.1"), headers_(), body_() {}
+
 Request::Request(HttpMethod method,
-                 const std::string &route_path,
-                 const std::map<std::string, std::string> &queries,
+                 const std::string &request_target,
+                 const std::string &http_version,
                  const std::map<std::string, std::string> &headers,
                  const std::string &body)
-    : method_(method), route_path_(route_path), queries_(queries), headers_(headers), body_(body) {}
+    : method_(method), request_target_(request_target), http_version_(http_version), headers_(headers), body_(body) {}
 
-Request::Request(const Request &request) : method_(kMethodUnknown) {
-    *this = request;
-}
-
-Request::~Request() {
-}
+Request::Request(const Request &other)
+    : method_(other.method_), request_target_(other.request_target_), http_version_(other.http_version_), headers_(other.headers_), body_(other.body_) {}
 
 Request &Request::operator=(const Request &other) {
     if (this != &other) {
         method_ = other.method_;
-        route_path_ = other.route_path_;
+        request_target_ = other.request_target_;
+        http_version_ = other.http_version_;
         headers_ = other.headers_;
         body_ = other.body_;
     }
@@ -28,17 +27,21 @@ HttpMethod Request::method() const {
     return method_;
 }
 
-// Returns requested URI without queries.
-const std::string &Request::routePath() const {
-    return route_path_;
+const std::string &Request::path() const {
+    // TODO: クエリパラメータが含まれる場合, リクエストターゲットが absolute-form 以外の場合に返す値を検討する
+    // refs: https://datatracker.ietf.org/doc/html/rfc9112#section-3.2
+    return request_target_;
 }
 
+// TODO: NOLINT を消す
+// NOLINTNEXTLINE(*-convert-member-functions-to-static)
 Option<std::string> Request::query(const std::string &key) const {
-    std::map<std::string, std::string>::const_iterator value = queries_.find(key);
+    // TODO: リクエストターゲットからクエリパラメータを抽出して返す
+    return None;
+}
 
-    if (value == queries_.end())
-        return None;
-    return Some(value->second);
+const std::string &Request::httpVersion() const {
+    return http_version_;
 }
 
 // Returns nullptr when key is not found.
@@ -50,11 +53,14 @@ Option<std::string> Request::header(const std::string &key) const {
     return Some(value->second);
 }
 
-const std::string &Request::text() const {
+const std::string &Request::body() const {
     return body_;
 }
 
-Request Request::parseRawRequest(const std::string &raw_request) {
-    // TODO: パースの処理をかく
-    return Request();
+bool Request::operator==(const Request &rhs) const {
+    return method_ == rhs.method_
+            && request_target_ == rhs.request_target_
+            && http_version_ == rhs.http_version_
+            && headers_ == rhs.headers_
+            && body_ == rhs.body_;
 }

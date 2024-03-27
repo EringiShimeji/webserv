@@ -14,8 +14,14 @@ void IOTaskManager::executeTasks() {
             if (task == NULL) {
                 continue;
             }
-            IOTaskResult r = task->execute().unwrap();
-            if (r == kTaskComplete) {
+            Result<IOTaskResult, std::string> r = task->execute();
+            if (r.isErr()) {
+                // TODO: 適切なエラーハンドリング
+                // ログを書く, 再試行する, など
+                delete task;
+                continue;
+            }
+            if (r.unwrap() == kTaskComplete) {
                 delete task;
             }
         }

@@ -1,6 +1,8 @@
 #ifndef METHOD_HPP
 #define METHOD_HPP
 
+#include <string>
+
 enum HttpMethod {
     kMethodUnknown,
     kMethodGet,
@@ -13,5 +15,7 @@ enum HttpMethod {
     kMethodConnect,
     kMethodPatch,
 };
+
+HttpMethod httpMethodFromString(const std::string &method);
 
 #endif //METHOD_HPP

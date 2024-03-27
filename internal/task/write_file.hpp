@@ -2,6 +2,7 @@
 #define WRITEFILE_HPP
 
 #include "callback_interface.hpp"
+#include "http/context.hpp"
 #include "io_task_manager.hpp"
 
 // NOLINTNEXTLINE(cppcoreguidelines-special-member-functions)
@@ -13,21 +14,22 @@ public:
 
 class WriteFileCallback : public IWriteFileCallback {
 public:
-    explicit WriteFileCallback(int fd);
+    explicit WriteFileCallback(IContext *ctx);
     Result<types::Unit, std::string> trigger();
 
 private:
-    int fd_;
+    IContext *ctx_;
 };
 
 class WriteFile : public IOTask {
 public:
-    WriteFile(IOTaskManager &manager, int fd, const std::string &data_to_write, IWriteFileCallback *cb);
+    WriteFile(IContext *ctx, const std::string &data_to_write, IWriteFileCallback *cb);
     ~WriteFile();
     virtual Result<IOTaskResult, std::string> execute();
 
 private:
     const std::string data_to_write_;
+    IContext *ctx_;
     IWriteFileCallback *cb_;
 };
 

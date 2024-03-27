@@ -4,8 +4,7 @@
 #include "request.hpp"
 #include "response_writer.hpp"
 #include "status.hpp"
-
-class IOTaskManager;
+#include "task/io_task_manager.hpp"
 
 class IContext {
 public:
@@ -16,6 +15,8 @@ public:
     virtual void text(HttpStatusCode status, const std::string &body) = 0;
     virtual void html(HttpStatusCode status, const std::string &body) = 0;
     virtual void redirect(HttpStatusCode status, const std::string &location) = 0;
+    virtual IOTaskManager &getManager() const = 0;
+    virtual int getClientFd() const = 0;
 };
 
 class Context : public IContext {
@@ -27,6 +28,8 @@ public:
     virtual void text(HttpStatusCode status, const std::string &body);
     virtual void html(HttpStatusCode status, const std::string &body);
     virtual void redirect(HttpStatusCode status, const std::string &location);
+    virtual IOTaskManager &getManager() const;
+    virtual int getClientFd() const;
 
 private:
     IOTaskManager &manager_;

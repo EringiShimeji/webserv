@@ -8,25 +8,27 @@
 
 class Request {
 public:
-    explicit Request(HttpMethod method = kMethodUnknown,
-                     const std::string &route_path = "/",
-                     const std::map<std::string, std::string> &queries = std::map<std::string, std::string>(),
+    Request();
+    explicit Request(HttpMethod method,
+                     const std::string &request_target,
+                     const std::string &http_version = "HTTP/1.1",
                      const std::map<std::string, std::string> &headers = std::map<std::string, std::string>(),
                      const std::string &body = "");
-    Request(const Request &request);
-    ~Request();
+    Request(const Request &other);
     Request &operator=(const Request &other);
+    bool operator==(const Request &rhs) const;
+
     HttpMethod method() const;
-    const std::string &routePath() const;
+    const std::string &path() const;
     Option<std::string> query(const std::string &key) const;
+    const std::string &httpVersion() const;
     Option<std::string> header(const std::string &key) const;
-    const std::string &text() const;
-    static Request parseRawRequest(const std::string &raw_request);
+    const std::string &body() const;
 
 private:
     HttpMethod method_;
-    std::string route_path_;
-    std::map<std::string, std::string> queries_;
+    std::string request_target_;
+    std::string http_version_;
     std::map<std::string, std::string> headers_;
     std::string body_;
 };

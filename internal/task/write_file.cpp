@@ -3,8 +3,8 @@
 
 IWriteFileCallback::~IWriteFileCallback() {}
 
-WriteFile::WriteFile(IOTaskManager &manager, int fd, const std::string &data_to_write, IWriteFileCallback *cb)
-    : IOTask(manager, fd), data_to_write_(data_to_write), cb_(cb) {
+WriteFile::WriteFile(IContext *ctx, const std::string &data_to_write, IWriteFileCallback *cb)
+    : IOTask(ctx->getManager(), ctx->getClientFd()), data_to_write_(data_to_write), ctx_(ctx), cb_(cb) {
 }
 
 Result<IOTaskResult, std::string> WriteFile::execute() {
@@ -17,9 +17,9 @@ WriteFile::~WriteFile() {
     delete cb_;
 }
 
-WriteFileCallback::WriteFileCallback(int fd) : fd_(fd) {}
+WriteFileCallback::WriteFileCallback(IContext *ctx) : ctx_(ctx) {}
 
 Result<types::Unit, std::string> WriteFileCallback::trigger() {
-    close(fd_);
+    close(ctx_->getClientFd());
     return Ok(unit);
 }

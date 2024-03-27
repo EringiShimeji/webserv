@@ -36,3 +36,11 @@ void Context::redirect(HttpStatusCode status, const std::string &location) {
     writer_.addHeader("Location", location);
     writer_.send();
 }
+
+IOTaskManager &Context::getManager() const {
+    return manager_;
+}
+
+int Context::getClientFd() const {
+    return client_fd_;
+}

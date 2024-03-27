@@ -51,3 +51,27 @@ gtest_discover_tests(response_writer_test)
 
 add_executable(to_string to_string_test.cpp)
 gtest_discover_tests(to_string)
+
+add_executable(string_utils_test string_utils_test.cpp)
+gtest_discover_tests(string_utils_test)
+
+add_executable(stream_utils_test stream_utils_test.cpp)
+gtest_discover_tests(stream_utils_test)
+
+add_executable(request_parser_test request_parser_test.cpp)
+gtest_discover_tests(request_parser_test)
+
+add_executable(http_method_test http_method_test.cpp)
+gtest_discover_tests(http_method_test)
+
+add_executable(context_test context_test.cpp)
+gtest_discover_tests(context_test)
+
+add_executable(fd_reader_test fd_reader_test.cpp)
+gtest_discover_tests(fd_reader_test)
+
+add_executable(buffered_reader_test buffered_reader_test.cpp)
+gtest_discover_tests(buffered_reader_test)
+
+add_executable(read_request_test read_request_test.cpp)
+gtest_discover_tests(read_request_test)
