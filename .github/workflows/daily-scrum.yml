@@ -1,0 +1,28 @@
+on:
+  schedule:
+    - cron: '0 0 * * *'
+  workflow_dispatch:
+
+jobs:
+  daily-scrum:
+    runs-on: ubuntu-latest
+    steps:
+      # デイリースクラムのアジェンダを書く用のissueを作成
+      - name: Create issue for daily scrum
+        run: |
+          gh issue create \
+            --title "$TITLE" \
+            --label "$LABELS" \
+            --body "$BODY"
+        with:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_REPO: ${{ github.repository }}
+          ASSIGNEES: monalisa,doctocat,hubot
+          LABELS: Daily Scrum
+          BODY: |
+            （ファシリは[wiki](https://github.com/EringiShimeji/webserv/wiki#%E3%83%87%E3%82%A4%E3%83%AA%E3%83%BC%E3%82%B9%E3%82%AF%E3%83%A9%E3%83%A0)を参照）
+
+            ## 共有事項（共有済みはチェックを入れる）
+            - [ ] (名前): (共有事項)
+            
+            ## メモ
