@@ -9,6 +9,7 @@ on:
 
 jobs:
   run:
+    timeout-minutes: 10
     name: ${{ matrix.os }} ${{ matrix.use-sanitizer && 'w/' || 'w/o' }} sanitizer
     strategy:
       matrix:
