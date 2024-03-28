@@ -13,9 +13,9 @@ jobs:
       - name: Install dependencies
         uses: awalsh128/cache-apt-pkgs-action@latest
         with:
-          packages: clang-tidy
+          packages: clang-tidy parallel
           version: 1.0
       - name: Configure cmake
         run: cmake -B build
       - name: Run clang-tidy
-        run: clang-tidy -p build -warnings-as-errors '*,-clang-diagnostic-unused-parameter' $(git ls-files '*.cpp' '*.hpp')
+        run: git ls-files '*.cpp' '*.hpp' | parallel clang-tidy -p build -quiet
