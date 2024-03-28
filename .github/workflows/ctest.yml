@@ -39,7 +39,7 @@ jobs:
           create-symlink: true
 
       - name: Configure CMake
-        run: cmake -B build -G Ninja ${{ matrix.cmake-args }}
+        run: cmake -B build -G Ninja -DCMAKE_BUILD_TYPE=Debug ${{ matrix.cmake-args }}
 
       - name: Build
         run: cmake --build build -j
