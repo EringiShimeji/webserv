@@ -1,4 +1,7 @@
 #include "config.hpp"
+#include "utils/result.hpp"
+
+const std::string Config::kDefaultPath = "default.conf";
 
 Config::Config() : client_max_body_size_(kDefaultClientMaxBodySize) {}
 
@@ -26,9 +29,12 @@ Config &Config::operator=(const Config &other) {
     return *this;
 }
 
-Config Config::parseConfigFile(const std::string &path) {
+Result<Config, std::string> Config::parseConfigFile(const std::string &path) {
+    // TODO: ここで頑張ってパースする
+    Config config;
     (void) path;
-    return Config();
+    return Ok(config);
+    //    return Err<std::string>("Not implemented");
 }
 
 // Set a default error page like nginx
