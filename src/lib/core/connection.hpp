@@ -12,10 +12,10 @@ public:
 
     ssize_t read(std::vector<uint8_t> &buf);
     ssize_t write(const std::vector<uint8_t> &buf);
-    void close();
-    int getFd();
-    Event &getReadEvent();
-    Event &getWriteEvent();
+    void close() const;
+    int getFd() const;
+    Event &getReadEvent() const;
+    Event &getWriteEvent() const;
 
 private:
     FileReadWriter readWriter_;
