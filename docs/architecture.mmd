@@ -7,13 +7,14 @@ classDiagram
         +getWriteEvent() Event&
     }
     class Event {
-        +handle() void
+        +handle()
         +getType() EventType
         +getConnection() Connection&
+        +setEventHandler(IEventHandler&)
     }
     class IEventHandler {
         <<interface>>
-        +handleEvent(Event&) void
+        +handleEvent(Event&)
     }
     class IEventActions {
         <<interface>>

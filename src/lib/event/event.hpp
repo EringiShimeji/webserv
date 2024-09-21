@@ -13,18 +13,22 @@ public:
 
 class Event {
 public:
-    using EventType = enum {
+    enum EventType {
         kReadEvent,
         kWriteEvent,
     };
 
-    Event(EventLoop &loop, Connection &conn, IEventHandler *handler);
+    Event(EventType type, EventLoop &loop, Connection &conn, IEventHandler *handler);
 
     void handle();
     EventType getType() const;
     Connection &getConnection() const;
+    void setEventHandler(IEventHandler *handler);
 
 private:
+    EventType type_;
+    EventLoop &loop_;
+    Connection &conn_;
     IEventHandler *handler_;
 };
 
