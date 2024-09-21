@@ -6,7 +6,6 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/bin)
 # 実行ファイルとテストで再利用するために、静的ライブラリを作成
 add_library(webserv_lib STATIC
         lib/add.cpp
-        lib/add.hpp
 )
 # lib/ を include path に追加
 # PUBLIC にすると、依存するターゲットにも反映される

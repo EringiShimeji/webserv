@@ -1,0 +1,56 @@
+classDiagram
+    class EventLoop {
+        +run() void
+    }
+    class Connection {
+        +getReadEvent() Event&
+        +getWriteEvent() Event&
+    }
+    class Event {
+        +handle() void
+        +getType() EventType
+        +getConnection() Connection&
+    }
+    class IEventHandler {
+        <<interface>>
+        +handleEvent(Event&) void
+    }
+    class IEventActions {
+        <<interface>>
+        +addEvent(Event&) int
+        +deleteEvent(Event&) int
+        +processEvents(EventLoop&) int
+    }
+    class EventType {
+        <<enumeration>>
+        kReadEvent
+        kWriteEvent
+        kTimeoutEvent
+        kCloseEvent
+    }
+    class IReader {
+        <<interface>>
+        +read(std:: vector<uint8_t>&) ssize_t
+    }
+    class IWriter {
+        <<interface>>
+        +write(const std:: vector<uint8_t>&) ssize_t
+    }
+    class IReadWriter {
+        <<interface>>
+    }
+    class FileReadWriter {
+    }
+
+EventLoop "1" o-- "1" IEventActions: uses
+EventLoop "1" *-- "0..*" Connection: manages
+Connection "1" *-- "2" Event: has events
+Connection "1" o-- "1" FileReadWriter: uses
+Event "1" --> "1" Connection: references
+Event "1" o-- "1" IEventHandler: has
+Event "1" o-- "1" EventType: has
+IEventActions ..> Event: depends on
+IReadWriter --|> IReader: inherits
+IReadWriter --|> IWriter: inherits
+FileReadWriter ..|> IReadWriter: implements
+Connection ..|> IReadWriter: implements
